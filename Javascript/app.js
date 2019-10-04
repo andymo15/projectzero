@@ -7,7 +7,7 @@ class Deck {
 	 }
 	 buildDeck(){
 	 	const finalDeck = []
-	 	const suits = ['Diamonds', 'Clubs', 'Hearts', 'Spades'];
+	 	const suits = ['D', 'C', 'H', 'S'];
 		const values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
 		for (let suit in suits){
 			for (let value in values){
@@ -18,7 +18,7 @@ class Deck {
 				if(values[value] === "J" || values[value] === "Q" || values[value] === "K"){
 					numVal=10;
 				}
-				let cardObj = {value: values[value], suit:suits[suit], numVal,}
+				let cardObj = {value: values[value], suit:suits[suit], numVal, img: `cardpics/${values[value]}${suits[suit]}.png`}
 				finalDeck.push(cardObj);
 			}
 		}
@@ -41,6 +41,9 @@ class Deck {
 		else if (player1.total > cpu.total){
 			console.log("Player Wins!")
 		}
+		else if ((cpu.total > 21) && (player1.total <= 21)){
+			console.log("Busted! Player Wins!")
+		}
 		else {console.log("CPU Wins!")}
 	}	
 };
@@ -57,13 +60,31 @@ class Player {
 	deal(deck) {
 		const randNum = Math.floor(Math.random() * deck.cards.length);
 		for (let i = 0; i < 2; i++) {
-		this.hand.push(deck.cards.splice(randNum, 1)[0])
-		}
+		this.hand.push(deck.cards.splice(randNum, 1)[0]);}
+		$('.userHand1').prepend(`<img src = "${this.hand[0].img}">`);
+		$('.userHand2').prepend(`<img src = "${this.hand[1].img}">`);
+	}
+	cpuDeal(deck) {
+		const randNum = Math.floor(Math.random() * deck.cards.length);
+		for (let i = 0; i < 2; i++) {
+		this.hand.push(deck.cards.splice(randNum, 1)[0]);}
+		$('.cpuHand1').prepend(`<img src = "${this.hand[0].img}">`);
+		$('.cpuHand2').prepend(`<img src = "${this.hand[1].img}">`);
+		
 	}
 	draw(deck){
 		const randNum = Math.floor(Math.random() * deck.cards.length);
 		this.hand.push(deck.cards.splice(randNum, 1)[0])
-	}
+		if (this.hand.length === 3) {
+		$('.userHand3').prepend(`<img src = "${this.hand[2].img}">`)
+		}
+		if (this.hand.length === 4) { 
+		$('.userHand4').prepend(`<img src = "${this.hand[3].img}">`)
+		}	
+		if (this.hand.length === 5){
+		$('.userHand5').prepend(`<img src = "${this.hand[4 ].img}">`) 	
+		} 
+}
 // hand[i].numVal
 	playerValue() {
 		let total = 0;
@@ -79,7 +100,6 @@ class Player {
 			}
 			if (hasAce && (this.hand.length < 3)) {
 				blackjack = true;
-
 			}
 		}
 
@@ -150,6 +170,9 @@ const gameDeck = new Deck ();
 const player1 = new Player ()
 const cpu = new Player();
 
+
+
+
 //gameDeck.shuffle();
 // player1.deal(gameDeck);
 /*player1.hand.push({value: "A", suit: "Spades", numVal: 1});
@@ -175,7 +198,7 @@ cpu.total = cpu.checkValue(); */
 $(document).on("click", "#start", function() {
 	gameDeck.shuffle();
 	player1.deal(gameDeck);
-	cpu.deal(gameDeck);
+	cpu.cpuDeal(gameDeck);
 	player1.total = player1.playerValue();
     cpu.total = cpu.playerValue();
 	console.log(player1);
