@@ -1,0 +1,55 @@
+body {
+margin: 0;
+padding: 0;
+background-image: url("https://us.123rf.com/450wm/yamabikay/yamabikay1612/yamabikay161200085/69448418-poker-table-felt-background-high-resolution-photo-.jpg?ver=6");
+}
+
+/*main{
+	width: 80vw;
+	height: 80vh;
+	background-image: url("https://us.123rf.com/450wm/yamabikay/yamabikay1612/yamabikay161200085/69448418-poker-table-felt-background-high-resolution-photo-.jpg?ver=6");
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+} */
+.wrapper {
+	display: flex;
+	justify-content: center;
+	transform: translate(0,53vh);
+	bottom: 10px;
+	padding: 5px;
+}
+
+.buttons {
+	border: 0 10px;
+	margin: 0 5px;
+}
+.flex-container {
+	display: flex;
+	bottom: 10px;
+	transform: translate(0, 53vh);
+	justify-content: center;
+}
+
+.flex-container1 {
+	display: flex;
+	bottom: 10px;
+	transform: translate(0,0vh);
+	justify-content: center;
+}
+.userHand {
+	width: 80px;
+	height: 130px;
+	border: 2px solid #000;
+	text-align: center;
+	display:block;
+}
+
+.cpuHand{
+	width: 80px;
+	height: 130px;
+	border: 2px solid #000;
+	text-align: center;
+	display:block;
+}
+
