@@ -45,7 +45,8 @@ class Deck {
 			console.log("Busted! Player Wins!")
 		}
 		else {console.log("CPU Wins!")}
-	}	
+	}
+
 };
 //human player and cpu will both be instances of Player Class
 		//player class will give them the deal function
@@ -53,9 +54,10 @@ class Deck {
 
 
 class Player {
-	constructor (){
+	constructor (isDealer){
 		this.hand = [];
 		this.total = '';
+		this.isDealer = isDealer;
 	}
 	deal(deck) {
 		const randNum = Math.floor(Math.random() * deck.cards.length);
@@ -69,19 +71,18 @@ class Player {
 		for (let i = 0; i < 2; i++) {
 		this.hand.push(deck.cards.splice(randNum, 1)[0]);}
 		$('.cpuHand1').prepend(`<img src = "${this.hand[0].img}">`);
-		$('.cpuHand2').prepend(`<img src = "${this.hand[1].img}">`);
-		
+		$('.cpuHand2').prepend(`<img src = "./cardpics/backcover.png">`)
 	}
 	draw(deck){
 		const randNum = Math.floor(Math.random() * deck.cards.length);
 		this.hand.push(deck.cards.splice(randNum, 1)[0])
-		if (this.hand.length === 3) {
-		$('.userHand3').prepend(`<img src = "${this.hand[2].img}">`)
+		if (this.hand.length === 3 && (this.isDealer === false) ) {
+		$('.userHand3').prepend(`<img src = "${this.hand[2].img}">`)  
 		}
-		if (this.hand.length === 4) { 
+		if (this.hand.length === 4 && (this.isDealer === false)) { 
 		$('.userHand4').prepend(`<img src = "${this.hand[3].img}">`)
 		}	
-		if (this.hand.length === 5){
+		if (this.hand.length === 5 && (this.isDealer === false)){
 		$('.userHand5').prepend(`<img src = "${this.hand[4 ].img}">`) 	
 		} 
 }
@@ -116,15 +117,30 @@ class Player {
 
 	};
 
-	cpuHit() {
+	 cpuHit() {
 		while ((cpu.total = cpu.playerValue()) <= 15) {
 			cpu.draw(gameDeck)
+			//console.log(cpu.hand.length)
+			if (cpu.hand.length === 3 && (this.isDealer === true)) {
+			$('.cpuHand3').prepend(`<img src = "${this.hand[2].img}">`);
+			}
+			if (cpu.hand.length === 4 && (this.isDealer === true)){
+			$('.cpuHand4').prepend(`<img src = "${this.hand[3].img}">`);
+			}
+			if (cpu.hand.length === 5 && (this.isDealer === true)) {
+				$('.cpuHand5').prepend(`<img src = "${this.hand[4].img}">`);
+			}
 		}
 		if (cpu.total = cpu.playerValue() >= 22) {
 			console.log("CPU busts!")
 		} else {return cpu.total = cpu.playerValue()
 		}
 	}
+	flipCard() {
+		if (this.isDealer === true) {
+		$('.cpuHand2').html(`<img src = "${this.hand[1].img}">`)  
+		}
+	} 
 }
 
 	/*cpuValue() {
@@ -167,8 +183,8 @@ class Player {
 // this.hand.push(gamedeck.deal())
 //}
 const gameDeck = new Deck ();
-const player1 = new Player ()
-const cpu = new Player();
+const player1 = new Player (false)
+const cpu = new Player(true);
 
 
 
@@ -212,8 +228,10 @@ $(document).on("click",'#hit', function(){
 }) 
 
 $(document).on('click', '#stay', function(){
-	player1.total = player1.playerValue();
+	cpu.total = cpu.playerValue();
+	cpu.flipCard();
 	cpu.cpuHit(gameDeck);
+	player1.total = player1.playerValue();
 	cpu.total = cpu.playerValue();
 	//cpu.total = cpu.cpuValue();
 	console.log(player1);
