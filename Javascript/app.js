@@ -53,6 +53,12 @@ class Deck {
 			$('#winnerMessage').delay(100).fadeToggle("slow");
 			$('#winnerMessage').delay(600).fadeToggle("medium");
 		}
+		else if (cpu.total === player1.total){
+			$('#winnerMessage h2').text("ISSA PUSH")
+			$('#winnerMessage').delay(100).fadeToggle("slow");
+			$('#winnerMessage').delay(600).fadeToggle("medium");
+
+		}
 		else {
 		console.log("CPU Wins!")
 		$('#winnerMessage h2').text("CPU Wins!")
@@ -98,7 +104,10 @@ class Player {
 		$('.userHand4').prepend(`<img src = "${this.hand[3].img}">`)
 		}	
 		if (this.hand.length === 5 && (this.isDealer === false)){
-		$('.userHand5').prepend(`<img src = "${this.hand[4 ].img}">`) 	
+		$('.userHand5').prepend(`<img src = "${this.hand[4].img}">`) 	
+		} 
+		if (this.hand.length === 6 && (this.isDealer === false)){
+		$('.userHand6').prepend(`<img src = "${this.hand[5].img}">`) 	
 		} 
 }
 // hand[i].numVal
@@ -163,6 +172,9 @@ class Player {
 			if (cpu.hand.length === 5 && (this.isDealer === true)) {
 				$('.cpuHand5').prepend(`<img src = "${this.hand[4].img}">`);
 			}
+			if (cpu.hand.length === 6 && (this.isDealer === true)) {
+				$('.cpuHand6').prepend(`<img src = "${this.hand[5].img}">`);
+			}
 		}
 		if (cpu.total = cpu.playerValue() >= 22) {
 			console.log("CPU busts!")
@@ -224,8 +236,10 @@ const cpu = new Player(true);
 
 //gameDeck.shuffle();
 // player1.deal(gameDeck);
-//player1.hand.push({value: "A", suit: "Spades", numVal: 1});
-//player1.hand.push({value: "A", suit: "Hearts", numVal: 1});
+////player1.hand.push({value: 7, suit: "C", numVal: 7, img: "cardpics/7C.png"});
+//player1.hand.push({value: "Jack", suit: "Hearts", numVal: 10, img: "cardpics/JH.png"});
+//cpu.hand.push({value: "Jack", suit: "Hearts", numVal: 10, img: "cardpics/JH.png"});
+//cpu.hand.push({value: 7, suit: "C", numVal: 7, img: "cardpics/7C.png"});
 //player1.hand.push({value: "A", suit: "Spades", numVal: 1});
 //player1.hand.push({value: 10, suit: "Spades", numVal: 10});
 //player1.hand.push({value: 5, suit: "Spades", numVal: 5}); 
@@ -289,6 +303,7 @@ $(document).on('click','#nextRound', function(){
 	cpu.hand.splice(0,cpu.hand.length)
 	player1.deal(gameDeck);
 	cpu.cpuDeal(gameDeck);
+	console.log(gameDeck)
 })
 /*
 $(document).ready(function(){

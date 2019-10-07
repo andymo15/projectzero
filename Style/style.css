@@ -73,6 +73,13 @@ background-image: url("https://us.123rf.com/450wm/yamabikay/yamabikay1612/yamabi
 	text-align: center;
 	display:block;  
 	}
+.userHand6 {
+	width: 80px;
+	height: 130px;
+	border: 2px solid #000;
+	text-align: center;
+	display:block;  
+	}
 
 .cpuHand1{
 	width: 80px;
@@ -111,6 +118,14 @@ background-image: url("https://us.123rf.com/450wm/yamabikay/yamabikay1612/yamabi
 	text-align: center;
 	display:block;
 }
+.cpuHand6{
+	width: 80px;
+	height: 130px;
+	border: 2px solid #000;
+	text-align: center;
+	display:block;
+}
+
 img {
 	width: 80px;
 	height: 130px;
@@ -127,4 +142,10 @@ img {
 	background-color: rgb(200, 200, 200, .5);
 	font-style: italic;
 	
+}
+
+
+.wager {
+	margin: 0 auto;
+
 }
