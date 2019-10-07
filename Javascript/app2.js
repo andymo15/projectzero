@@ -37,30 +37,17 @@ class Deck {
 	checkWinner(player1, cpu) {
 		if (player1.total > 21) {
 			console.log("Busted! CPU Wins!")
-			$('#winnerMessage h2').text(`BUSTED CPU Wins!`)
-			$('#winnerMessage').delay(100).fadeToggle("slow");
-			$('#winnerMessage').delay(600).fadeToggle("medium");
 		}
 		else if (player1.total > cpu.total){
 			console.log("Player Wins!")
-			$('#winnerMessage h2').text(`You Won!`)
-			$('#winnerMessage').delay(100).fadeToggle("slow");
-			$('#winnerMessage').delay(600).fadeToggle("medium");
 		}
 		else if ((cpu.total > 21) && (player1.total <= 21)){
 			console.log("Busted! Player Wins!")
-			$('#winnerMessage h2').text("CPU Busted! You Won!")
-			$('#winnerMessage').delay(100).fadeToggle("slow");
-			$('#winnerMessage').delay(600).fadeToggle("medium");
 		}
-		else {
-		console.log("CPU Wins!")
-		$('#winnerMessage h2').text("CPU Wins!")
-		$('#winnerMessage').delay(100).fadeToggle("slow");
-		$('#winnerMessage').delay(600).fadeToggle("medium");
-		}
-	};
-}
+		else {console.log("CPU Wins!")}
+	}
+
+};
 //human player and cpu will both be instances of Player Class
 		//player class will give them the deal function
 		//both of them can call deal(arr) to get cards
@@ -78,7 +65,6 @@ class Player {
 		this.hand.push(deck.cards.splice(randNum, 1)[0]);}
 		$('.userHand1').prepend(`<img src = "${this.hand[0].img}">`);
 		$('.userHand2').prepend(`<img src = "${this.hand[1].img}">`);
-	
 	}
 	cpuDeal(deck) {
 		const randNum = Math.floor(Math.random() * deck.cards.length);
@@ -86,7 +72,6 @@ class Player {
 		this.hand.push(deck.cards.splice(randNum, 1)[0]);}
 		$('.cpuHand1').prepend(`<img src = "${this.hand[0].img}">`);
 		$('.cpuHand2').prepend(`<img src = "./cardpics/backcover.png">`)
-	
 	}
 	draw(deck){
 		const randNum = Math.floor(Math.random() * deck.cards.length);
@@ -104,44 +89,26 @@ class Player {
 // hand[i].numVal
 	playerValue() {
 		let total = 0;
-		let aceCount = 0;
-		let moreAces = false; 
 		let hasAce = false;
 		let blackjack = false;
 		for (let i = 0; i < this.hand.length; i++) {
 			if (this.hand[i].value !== 'A'){
 				// hasAce === true;
 				total += this.hand[i].numVal;
-			} /*else if (this.hand[i].value === 'A') {
+			} else if (this.hand[i].value === 'A') {
+				
 				hasAce = true;
-			}			
-			
-			*/
-		}
-		for (let i = 0; i < this.hand.length ; i++) {
-			if (this.hand[i].numVal === 1){
-				aceCount += 1;
+			}
+			if (hasAce && (this.hand.length < 3)) {
+				blackjack = true;
 			}
 		}
-		if (aceCount === 1) {
-			hasAce = true
-		} else if (aceCount === 2){
-			moreAces = true;
-			hasAce = false;
-		}
 
-		if (hasAce && (this.hand.length < 3)) {
-				blackjack = true;
-	}; 
 		if (blackjack && (total === 10)) {
-			return (total += 11);
-		} else if ((aceCount === 1) && ((total + 11) <= 21 )) {
-			 return total += 11;
-		} else if ((moreAces === true) && ((total + 12) > 21)){
-			return total += 2
-        } else if (moreAces === true){
-			return total += 12
-		} else if (hasAce && ((total + 11) > 21)) {
+			return (total + 11);
+		} else if (hasAce && (total < 10)) {
+			return total += 1;
+		} else if (hasAce && (total > 10)) {
 			return total += 1;
 		}
 		  else {
@@ -224,11 +191,10 @@ const cpu = new Player(true);
 
 //gameDeck.shuffle();
 // player1.deal(gameDeck);
-//player1.hand.push({value: "A", suit: "Spades", numVal: 1});
-//player1.hand.push({value: "A", suit: "Hearts", numVal: 1});
-//player1.hand.push({value: "A", suit: "Spades", numVal: 1});
-//player1.hand.push({value: 10, suit: "Spades", numVal: 10});
-//player1.hand.push({value: 5, suit: "Spades", numVal: 5}); 
+/*player1.hand.push({value: "A", suit: "Spades", numVal: 1});
+player1.hand.push({value: "Q", suit: "Spades", numVal: 10});
+//player1.hand.push({value: 5, suit: "Spades", numVal: 5}); */
+
 //player1.deal(gameDeck);
 //cpu.deal(gameDeck);
 /* cpu.hand.push({value: "A", suit: "Spades", numVal: 1});
@@ -244,31 +210,21 @@ cpu.hand.push({value: 8, suit: "Spades", numVal: 8}); */
 cpu.total = cpu.checkValue(); */
 
 //gameDeck.checkWinner(player1, cpu)
-/*
- function clear() {
-          document.getElementsByClassName(".clear").innerHTML = "";
-        } */
-
-  function clear() {
-  	$('.clear').empty();
-
-  }
 
 $(document).on("click", "#start", function() {
 	gameDeck.shuffle();
 	player1.deal(gameDeck);
 	cpu.cpuDeal(gameDeck);
-	//player1.total = player1.playerValue();
-   // cpu.total = cpu.playerValue();
-	//console.log(player1);
-    //console.log(cpu);
+	player1.total = player1.playerValue();
+    cpu.total = cpu.playerValue();
+	console.log(player1);
+    console.log(cpu);
 });
 
 $(document).on("click",'#hit', function(){
 	player1.draw(gameDeck)
 	player1.total = player1.playerValue();
-	cpu.total=cpu.playerValue();
-	//console.log(player1)
+	console.log(player1)
 }) 
 
 $(document).on('click', '#stay', function(){
@@ -282,17 +238,3 @@ $(document).on('click', '#stay', function(){
 	console.log(cpu);
 	gameDeck.checkWinner(player1,cpu);
 })
-
-$(document).on('click','#nextRound', function(){
-	clear();
-	player1.hand.splice(0,player1.hand.length)
-	cpu.hand.splice(0,cpu.hand.length)
-	player1.deal(gameDeck);
-	cpu.cpuDeal(gameDeck);
-})
-/*
-$(document).ready(function(){
-  $("#stay").click(function(){
-    $("#winnerMessage").fadeToggle("slow");
-  });
-}); */
